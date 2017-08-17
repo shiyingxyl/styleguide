@@ -48,6 +48,8 @@ NOT」,「SHOULD」,「SHOULD NOT」,「RECOMMENDED」,「MAY」和「OPTIONAL�
 
 ### .eslintrc.js
 
+### [注意] 所有的文件必须`eslint`验证通过方能提交
+
 每个项目应当「SHOULD」包含`.eslintrc`，用来统一配置代码规范的验证规则，使用方式请参考[eslint是什么？](http://www.jianshu.com/p/2bcdce1dc8d4)
 
 
