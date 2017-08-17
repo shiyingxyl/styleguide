@@ -98,12 +98,6 @@
 
 　　[4.1 模块化](#41-%E6%A8%A1%E5%9D%97%E5%8C%96)
 
-　　　　[4.1.1 AMD](#411-amd)
-
-　　　　[4.1.2 define](#412-define)
-
-　　　　[4.1.3 require](#413-require)
-
 　　[4.2 DOM](#42-dom)
 
 　　　　[4.2.1 元素获取](#421-%E5%85%83%E7%B4%A0%E8%8E%B7%E5%8F%96)
@@ -123,7 +117,7 @@
 ## 1 前言
 
 
-JavaScript在百度一直有着广泛的应用，特别是在浏览器端的行为管理。本文档的目标是使JavaScript代码风格保持一致，容易被理解和被维护。
+JavaScript在浪潮一直有着广泛的应用，特别是在浏览器端的行为管理。本文档的目标是使JavaScript代码风格保持一致，容易被理解和被维护。
 
 虽然本文档是针对JavaScript设计的，但是在使用各种JavaScript的预编译语言时(如TypeScript等)时，适用的部分也应尽量遵循本文档的约定。
 
@@ -157,47 +151,7 @@ UTF-8 编码具有更广泛的适应性。BOM 在使用程序或工具处理文�
 #### 2.2.1 缩进
 
 
-##### [强制] 使用 `4` 个空格做为一个缩进层级，不允许使用 `2` 个空格 或 `tab` 字符。
-
-
-
-##### [强制] `switch` 下的 `case` 和 `default` 必须增加一个缩进层级。
-
-示例：
-
-```javascript
-// good
-switch (variable) {
-
-    case '1':
-        // do...
-        break;
-
-    case '2':
-        // do...
-        break;
-
-    default:
-        // do...
-
-}
-
-// bad
-switch (variable) {
-
-case '1':
-    // do...
-    break;
-
-case '2':
-    // do...
-    break;
-
-default:
-    // do...
-
-}
-```
+##### [强制] 使用 `2` 个空格做为一个缩进层级，不允许使用 `4` 个空格 或 `tab` 字符。
 
 #### 2.2.2 空格
 
@@ -1212,215 +1166,6 @@ var servers = [
 
 @exports 与 @module 都可以用来标识模块，区别在于 @module 可以省略模块名称。而只使用 @exports 时在 namepaths 中可以省略 module: 前缀。
 
-
-示例：
-
-```javascript
-define(
-    function (require) {
-
-        /**
-         * foo description
-         *
-         * @exports Foo
-         */
-        var foo = {
-            // TODO
-        };
-
-        /**
-         * baz description
-         *
-         * @return {boolean} return description
-         */
-        foo.baz = function () {
-            // TODO
-        };
-
-        return foo;
-
-    }
-);
-```
-
-也可以在 exports 变量前使用 @module 标识：
-
-```javascript
-define(
-    function (require) {
-
-        /**
-         * module description.
-         *
-         * @module foo
-         */
-        var exports = {};
-
-
-        /**
-         * bar description
-         *
-         */
-        exports.bar = function () {
-            // TODO
-        };
-
-        return exports;
-    }
-);
-```
-
-如果直接使用 factory 的 exports 参数，还可以：
-
-```javascript
-/**
- * module description.
- *
- * @module
- */
-define(
-    function (require, exports) {
-
-        /**
-         * bar description
-         *
-         */
-        exports.bar = function () {
-            // TODO
-        };
-        return exports;
-    }
-);
-```
-
-##### [强制] 对于已使用 `@module` 标识为 AMD模块 的引用，在 `namepaths` 中必须增加 `module:` 作前缀。
-
-解释：
-
-namepaths 没有 module: 前缀时，生成的文档中将无法正确生成链接。
-
-示例：
-
-```javascript
-/**
- * 点击处理
- *
- * @fires module:Select#change
- * @private
- */
-Select.prototype.clickHandler = function () {
-    /**
-     * 值变更时触发
-     *
-     * @event module:Select#change
-     * @param {Object} e e描述
-     * @param {string} e.before before描述
-     * @param {string} e.after after描述
-     */
-    this.fire(
-        'change',
-        {
-            before: 'foo',
-            after: 'bar'
-        }
-    );
-};
-```
-
-##### [建议] 对于类定义的模块，可以使用 `@alias` 标识构建函数。
-
-示例：
-
-```javascript
-/**
- * A module representing a jacket.
- * @module jacket
- */
-define(
-    function () {
-
-        /**
-         * @class
-         * @alias module:jacket
-         */
-        var Jacket = function () {
-        };
-
-        return Jacket;
-    }
-);
-```
-
-
-##### [建议] 多模块定义时，可以使用 `@exports` 标识各个模块。
-
-示例：
-
-```javascript
-// one module
-define('html/utils',
-    /**
-     * Utility functions to ease working with DOM elements.
-     * @exports html/utils
-     */
-    function () {
-        var exports = {
-        };
-
-        return exports;
-    }
-);
-
-// another module
-define('tag',
-    /** @exports tag */
-    function () {
-        var exports = {
-        };
-
-        return exports;
-    }
-);
-```
-
-##### [建议] 对于 exports 为 Object 的模块，可以使用`@namespace`标识。
-
-解释：
-
-使用 @namespace 而不是 @module 或 @exports 时，对模块的引用可以省略 module: 前缀。
-
-##### [建议] 对于 exports 为类名的模块，使用 `@class` 和 `@exports` 标识。
-
-
-示例：
-
-```javascript
-
-// 只使用 @class Bar 时，类方法和属性都必须增加 @name Bar#methodName 来标识，与 @exports 配合可以免除这一麻烦，并且在引用时可以省去 module: 前缀。
-// 另外需要注意类名需要使用 var 定义的方式。
-
-/**
- * Bar description
- *
- * @see foo
- * @exports  Bar
- * @class
- */
-var Bar = function () {
-    // TODO
-};
-
-/**
- * baz description
- *
- * @return {(string|Array)} return description
- */
-Bar.prototype.baz = function () {
-    // TODO
-};
-```
-
-
 #### 2.4.13 细节注释
 
 
@@ -1670,14 +1415,14 @@ if (noValue === null || typeof noValue === 'undefined') {
 ```javascript
 // good
 switch (typeof variable) {
-    case 'object':
-        // ......
-        break;
-    case 'number':
-    case 'boolean':
-    case 'string':
-        // ......
-        break;
+case 'object':
+    // ......
+    break;
+case 'number':
+case 'boolean':
+case 'string':
+    // ......
+    break;
 }
 
 // bad
@@ -2611,157 +2356,9 @@ Tree.prototype.selectNode = function (id) {
 
 
 
-
-
-
-
-
 ## 4 浏览器环境
 
-
-
-
 ### 4.1 模块化
-
-
-#### 4.1.1 AMD
-
-
-##### [强制] 使用 `AMD` 作为模块定义。
-
-解释：
-
-AMD 作为由社区认可的模块定义形式，提供多种重载提供灵活的使用方式，并且绝大多数优秀的 Library 都支持 AMD，适合作为规范。
-
-目前，比较成熟的 AMD Loader 有：
-
-- 官方实现的 [requirejs](http://requirejs.org/)
-- 百度自己实现的 [esl](https://github.com/ecomfe/esl)
-
-
-##### [强制] 模块 `id` 必须符合标准。
-
-解释：
-
-模块 id 必须符合以下约束条件：
-
-1. 类型为 string，并且是由 `/` 分割的一系列 terms 来组成。例如：`this/is/a/module`。
-2. term 应该符合 [a-zA-Z0-9_-]+ 规则。
-3. 不应该有 .js 后缀。
-4. 跟文件的路径保持一致。
-
-
-
-#### 4.1.2 define
-
-
-##### [建议] 定义模块时不要指明 `id` 和 `dependencies`。
-
-解释：
-
-在 AMD 的设计思想里，模块名称是和所在路径相关的，匿名的模块更利于封包和迁移。模块依赖应在模块定义内部通过 local require 引用。
-
-所以，推荐使用 define(factory) 的形式进行模块定义。
-
-
-示例：
-
-```javascript
-define(
-    function (require) {
-    }
-);
-```
-
-
-##### [建议] 使用 `return` 来返回模块定义。
-
-解释：
-
-使用 return 可以减少 factory 接收的参数（不需要接收 exports 和 module），在没有 AMD Loader 的场景下也更容易进行简单的处理来伪造一个 Loader。
-
-示例：
-
-```javascript
-define(
-    function (require) {
-        var exports = {};
-
-        // ...
-
-        return exports;
-    }
-);
-```
-
-
-
-
-#### 4.1.3 require
-
-
-##### [强制] 全局运行环境中，`require` 必须以 `async require` 形式调用。
-
-解释：
-
-模块的加载过程是异步的，同步调用并无法保证得到正确的结果。
-
-示例：
-
-```javascript
-// good
-require(['foo'], function (foo) {
-});
-
-// bad
-var foo = require('foo');
-```
-
-##### [强制] 模块定义中只允许使用 `local require`，不允许使用 `global require`。
-
-解释：
-
-1. 在模块定义中使用 global require，对封装性是一种破坏。
-2. 在 AMD 里，global require 是可以被重命名的。并且 Loader 甚至没有全局的 require 变量，而是用 Loader 名称做为 global require。模块定义不应该依赖使用的 Loader。
-
-
-##### [强制] Package在实现时，内部模块的 `require` 必须使用 `relative id`。
-
-解释：
-
-对于任何可能通过 发布-引入 的形式复用的第三方库、框架、包，开发者所定义的名称不代表使用者使用的名称。因此不要基于任何名称的假设。在实现源码中，require 自身的其它模块时使用 relative id。
-
-示例：
-
-```javascript
-define(
-    function (require) {
-        var util = require('./util');
-    }
-);
-```
-
-
-##### [建议] 不会被调用的依赖模块，在 `factory` 开始处统一 `require`。
-
-解释：
-
-有些模块是依赖的模块，但不会在模块实现中被直接调用，最为典型的是 css / js / tpl 等 Plugin 所引入的外部内容。此类内容建议放在模块定义最开始处统一引用。
-
-示例：
-
-```javascript
-define(
-    function (require) {
-        require('css!foo.css');
-        require('tpl!bar.tpl.html');
-
-        // ...
-    }
-);
-```
-
-
 
 ### 4.2 DOM
 
