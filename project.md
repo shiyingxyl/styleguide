@@ -48,7 +48,7 @@ NOT」,「SHOULD」,「SHOULD NOT」,「RECOMMENDED」,「MAY」和「OPTIONAL�
 
 ### .eslintrc.js
 
-### [注意] 所有的文件必须`eslint`验证通过方能提交
+#### [注意] 所有的文件必须`eslint`验证通过方能提交
 
 每个项目应当「SHOULD」包含`.eslintrc`，用来统一配置代码规范的验证规则，使用方式请参考[eslint是什么？](http://www.jianshu.com/p/2bcdce1dc8d4)
 
@@ -79,7 +79,7 @@ NOT」,「SHOULD」,「SHOULD NOT」,「RECOMMENDED」,「MAY」和「OPTIONAL�
 
 ### dev
 
-dev 作为项目开发调试目录，所有开发调试使用的文件应当「SHOULD」存放在此目录。
+dev 作为项目开发调试目录，所有开发调试使用的文件应当「SHOULD」存放在此目录。
 
 ### dist
 
