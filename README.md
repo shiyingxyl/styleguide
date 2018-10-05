@@ -4,8 +4,8 @@
 
 * [Java规范](./java.md)
 * [UED项目目录规范](./project.md)
-* [命名规范](./name.md)
-* [交互设计规范](./design.md)
+* [UED命名规范](./name.md)
+* [UED交互设计规范](./design.md)
 * [JavaScript 编码规范](./javascript.md)
 * [CSS 编码规范](./css.md)
 * [Html 编码规范](./html.md)
